@@ -13,6 +13,8 @@ class Login{
 	public:
 		void Register();
 		void login(char user_n[], char pass[]);
+		void Export();
+		void Read();
 };
 
 void Login :: Register()
@@ -24,8 +26,19 @@ void Login :: Register()
 	cin>>password;
 	cout<<"Press 1. Member 2.Admin: ";
 	cin>>access;
-	fout<<username<<" "<<password<<" "<<access<<" ";
+	fout<<username<<" "<<password<<" "<<access<<endl;
 	fout.close();
+}
+
+void Login::Read()
+{
+	ifstream fin("login_data.txt",ios::in);
+	while(fin)
+	{
+		fin>>username>>password>>access;
+		cout<<"Username - "<<username<<"\n"<<"Password - "<<password<<"\n"<<"role - "<<access<<"\n"<<endl;
+	}
+	fin.close();
 }
 
 void Login :: login(char user_n[], char pass[])
@@ -49,7 +62,22 @@ void Login :: login(char user_n[], char pass[])
 	fin.close();
 }
 
-
+void Login::Export()
+{
+	ifstream fin("login_data.txt",ios::in);
+	ofstream fout("Login_data.csv",ios::out);
+	fout<<"USERNAME"<<","<<"PASSWORD"<<","<<"ROLE(1=Member 2=Admin)"<<endl;
+	while(!fin.eof())
+	{
+		fin>>username>>password>>access;
+		if(access==1)
+			fout<<username<<","<<password<<","<<"Member"<<endl;
+		else if(access==2)
+			fout<<username<<","<<password<<","<<"Admin"<<endl;
+	}
+	fin.close();
+	fout.close();
+}
 
 int main()
 {
@@ -60,22 +88,30 @@ int main()
 	    char username[100],password[50];
 	    unsigned int ch;
 	    cout<<" ********  Welcome to Car Rental System *********";
-	    cout<<"\n 1. Login \n 2. Register \n 3. Exit"<<endl;
+	    cout<<"\n 1. Login \n 2. Register \n 3. Read \n 4.Export \n 5. Exit"<<endl;
 	    cout<<"Enter choice: ";
 	    cin>>ch;
 	    switch(ch)
 	    {
 	        case 1:
-	           cout<<" Username : "; cin>>username;
-	           cout<<" Password : "; cin>>password;
-	           l1.login(username,password);
-	        break;
+	           		cout<<" Username : "; cin>>username;
+	           		cout<<" Password : "; cin>>password;
+	           		l1.login(username,password);
+	        	break;
 	        case 2:
 	                l1.Register();
-	        break;
+	        	break;
 	        case 3:
+	        		l1.Read();
+	        	break;
+	        case 4:
+	        		l1.Export();
+	        		cout<<"File has been made in the folder"<<endl;
+	        	break;
+	        case 5:
 	            exit(1);
 	    }
+	    cout<<"Press anything to proceed: ";
 	    getch();
   }
 }
