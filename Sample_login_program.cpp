@@ -33,9 +33,8 @@ void Login :: Register()
 void Login::Read()
 {
 	ifstream fin("login_data.txt",ios::in);
-	while(fin)
+	while(fin>>username>>password>>access)
 	{
-		fin>>username>>password>>access;
 		cout<<"Username - "<<username<<"\n"<<"Password - "<<password<<"\n"<<"role - "<<access<<"\n"<<endl;
 	}
 	fin.close();
@@ -44,9 +43,8 @@ void Login::Read()
 void Login :: login(char user_n[], char pass[])
 {
 	ifstream fin("login_data.txt",ios::in);
-	while(!fin.eof())
+	while(fin>>username>>password>>access)
 	{
-		fin>>username>>password>>access;
 		if(strcmp(user_n,this->username)==0 && strcmp(pass,this->password)==0)
 		{
 			if(access==1)
@@ -67,9 +65,8 @@ void Login::Export()
 	ifstream fin("login_data.txt",ios::in);
 	ofstream fout("Login_data.csv",ios::out);
 	fout<<"USERNAME"<<","<<"PASSWORD"<<","<<"ROLE(1=Member 2=Admin)"<<endl;
-	while(!fin.eof())
+	while(fin>>username>>password>>access)
 	{
-		fin>>username>>password>>access;
 		if(access==1)
 			fout<<username<<","<<password<<","<<"Member"<<endl;
 		else if(access==2)
