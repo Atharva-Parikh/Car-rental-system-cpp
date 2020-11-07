@@ -57,6 +57,7 @@ class Login_user:public Login{
 		void book_luxury();
 		//do work function
 		void do_user_work();
+		void unbook();
 };
 
 class Login_admin:public Login{
@@ -986,32 +987,140 @@ void Login_user :: book_luxury()
 	}
 }
 
+
+void Login_user::unbook()
+{
+	int id_car;
+	cout<<"Enter the ID of car you want to submit: ";
+	cin>>id_car;
+	char found = 'n';
+	fstream fio1("HATCHBACK.dat",ios::in|ios::out);
+	fio1.seekg(0);
+	while(1)
+	{
+		int loc = fio1.tellg(); 
+		fio1.read((char*)&c,sizeof(c));
+		if(c.get_ID() == id_car){
+			c.unbookit();
+			found = 'y';
+			fio1.seekg(loc);
+			fio1.write((char*)&c,sizeof(c));
+			break;
+		}
+	}
+	fio1.close();
+	if(found == 'y'){
+		cout<<"Hope You liked the Hatchback :)"<<endl;
+		cout<<"Thank You for using our services!!"<<endl;
+		return;
+	}
+	
+	fstream fio2("SEDAN.dat",ios::in|ios::out);
+	fio2.seekg(0);
+	while(1)
+	{
+		int loc = fio2.tellg(); 
+		fio2.read((char*)&c,sizeof(c));
+		if(c.get_ID() == id_car){
+			c.unbookit();
+			found = 'y';
+			fio2.seekg(loc);
+			fio2.write((char*)&c,sizeof(c));
+			break;
+		}
+	}
+	fio2.close();
+	if(found == 'y'){
+		cout<<"Hope You liked the Sedan :)"<<endl;
+		cout<<"Thank You for using our services!!"<<endl;
+		return;
+	}
+	
+	fstream fio3("SUV.dat",ios::in|ios::out);
+	fio3.seekg(0);
+	while(1)
+	{
+		int loc = fio3.tellg(); 
+		fio3.read((char*)&c,sizeof(c));
+		if(c.get_ID() == id_car){
+			c.unbookit();
+			found = 'y';
+			fio3.seekg(loc);
+			fio3.write((char*)&c,sizeof(c));
+			break;
+		}
+	}
+	fio3.close();
+	if(found == 'y'){
+		cout<<"Hope You liked the Suv :)"<<endl;
+		cout<<"Thank You for using our services!!"<<endl;
+		return;
+	}
+	
+	fstream fio4("HATCHBACK.dat",ios::in|ios::out);
+	fio4.seekg(0);
+	while(1)
+	{
+		int loc = fio4.tellg(); 
+		fio4.read((char*)&c,sizeof(c));
+		if(c.get_ID() == id_car){
+			c.unbookit();
+			found = 'y';
+			fio4.seekg(loc);
+			fio4.write((char*)&c,sizeof(c));
+			break;
+		}
+	}
+	fio4.close();
+	if(found == 'y'){
+		cout<<"Hope You liked the Luxury :)"<<endl;
+		cout<<"Thank You for using our services!!"<<endl;
+		return;
+	}
+	else if(found == 'n')
+	{
+		cout<<"OOPS! The Car you are submitting does not belong to us!!"<<endl;
+	}
+}
+
 void Login_user :: do_user_work()
 {
-	int ch;
-	cout<<"Booking Point\n 1.Hatchback\n 2.Sedan\n 3.Suv\n 4.Luxury\n Your Choice: ";
-	cin>>ch;
-	switch(ch)
+	int choice;
+	cout<<"Menu\n 1.Book a car\n 2.Submit the car\n Your choice: ";
+	cin>>choice;
+	switch(choice)
 	{
 		case 1:
-			this->show_hatchback();
-			this->book_hatchback();
+			int ch;
+			cout<<"Booking Point\n 1.Hatchback\n 2.Sedan\n 3.Suv\n 4.Luxury\n Your Choice: ";
+			cin>>ch;
+			switch(ch)
+			{
+				case 1:
+					this->show_hatchback();
+					this->book_hatchback();
+					break;
+				case 2:
+					this->show_sedan();
+					this->book_sedan();
+					break;
+				case 3:
+					this->show_suv();
+					this->book_suv();
+					break;
+				case 4:
+					this->show_luxury();
+					this->book_suv();
+					break;
+				default:
+					cout<<"Seems You selected wrong option"<<endl;
+			}
 			break;
 		case 2:
-			this->show_sedan();
-			this->book_sedan();
+			this->unbook();
 			break;
-		case 3:
-			this->show_suv();
-			this->book_suv();
-			break;
-		case 4:
-			this->show_luxury();
-			this->book_suv();
-			break;
-		default:
-			cout<<"Seems You selected wrong option"<<endl;
 	}
+	
 }
 
 void Login_user :: login(char user_n[], char pass[])
