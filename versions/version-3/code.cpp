@@ -1172,13 +1172,16 @@ void Login_user :: do_user_work()
 
 void Login_user :: login(char user_n[], char pass[])
 {
+	string name;
 	int found = 0;
 	ifstream fin("login_data.txt",ios::in);
 	while(fin>>username>>password)
 	{
 		if(strcmp(user_n,this->username)==0 && strcmp(pass,this->password)==0)
 		{
-			cout<<"Welcome back "<<username<<endl;
+			name = conv_to_str(user_n,str_len(user_n));
+			size_t found = name.find("@");
+			cout<<"Welcome back "<<name.substr(0,found)<<endl;
 			found = 1;
 			do_user_work();
 			break;
