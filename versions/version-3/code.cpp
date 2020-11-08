@@ -1155,8 +1155,6 @@ void Login_user :: login(char user_n[], char pass[])
 }
 
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 /******************************* STRING OPERATIONS **************************************/
 int str_len(char c[])
@@ -1203,9 +1201,15 @@ int main()
 	char username[100],password[50];
 	int choosing;
 	string user;
-	cout<<"Enter:\n 1.Login\n 2.User Registeration\n 3.Exit Program\n Your Choice: ";
-	cin>>choosing;
+	string line;
+	ifstream fin("decorate.txt");
+	while(getline(fin,line))
+	{
+		cout<<line<<endl;
+	}
 	do{
+		cout<<"\nEnter:\n 1.Login\n 2.User Registeration\n 3.Exit Program\n Your Choice: ";
+		cin>>choosing;
 		switch(choosing)
 	{
 		case 1: //login function will seperate the user and admin.
