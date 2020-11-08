@@ -2,8 +2,10 @@
 #include<sstream>
 #include<fstream>
 #include<string.h>
+#include<string>
 #include<conio.h>
 #include<stdlib.h>
+#include<iomanip>
 using namespace std;
 
 class Cars
@@ -83,6 +85,44 @@ class Login_admin:public Login{
 		//do work function
 		void do_work();
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////
+/******************************* STRING OPERATIONS **************************************/
+int str_len(char c[])
+{
+	int length=0;
+	while(c[length]!='\0')
+	{
+		length++;
+	}
+	return length;
+}
+
+string conv_to_str(char* a,int size)
+{
+	int i;
+	string s = "";
+	for(i=0;i<size;i++)
+	{
+		s = s + a[i];
+	}
+	return s;
+}
+
+int isSubstring(string s1, string s2) 
+{ 
+    int M = s1.length(); 
+    int N = s2.length(); 
+    for (int i = 0; i <= N - M; i++) { // A loop to slide pat[] one by one
+        int j; 
+        for (j = 0; j < M; j++) //For current index i, check for pattern match
+            if (s2[i + j] != s1[j]) 
+                break; 
+        if (j == M) 
+            return i; 
+    } 
+    return -1;
+} 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /******************************************CAR CLASS FUNCTIONS****************************************************/
 void Cars::getdata()
@@ -97,9 +137,10 @@ void Cars::getdata()
 
 void Cars::putdata()
 {
-	cout<<"Car - "<<name<<endl;
+	/*cout<<"Car - "<<name<<endl;
 	cout<<"ID - "<<ID<<endl;
-	cout<<"booked? - "<<booked<<endl;
+	cout<<"booked? - "<<booked<<endl;*/
+	cout<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(1)<<booked<<" |"<<endl;
 }
 void Cars::modify() //function to modify the records
 {
@@ -134,7 +175,8 @@ void Cars::modify() //function to modify the records
 
 void Login_admin::login_admin(char user_n[], char pass[])
 {
-	int ch = 0;
+	string name;
+	int ch = 0,found = 0;
 	ifstream fin("admin_data.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
@@ -147,16 +189,17 @@ void Login_admin::login_admin(char user_n[], char pass[])
 		{
 			if(strcmp(user_n,this->username)==0 && strcmp(pass,this->password)==0)
 			{
-				cout<<"Hello "<<username<<endl;
+				name = conv_to_str(user_n,str_len(user_n));
+				size_t found = name.find("@cadmin.ac.in");
+				cout<<"Hello "<<name.substr(0,found)<<endl;
+				found = 1;
 				this->do_work();
 				break;
 			}
-			else
+			else if(strcmp(user_n,this->username)==0)
 			{
-				char ans;
-				string out = (strcmp(user_n,this->username)==0) ? "The entered password doesn't match":"The username is incorrect";
-				cout<<out<<endl;
-				cout<<"Try again"<<endl;
+				cout<<"Entered password is incorrect"<<endl;
+				found = 1;
 				/*cout<<"You might want to consider registering(y/n): ";
 				cin>>ans;
 				if(ans=='y'||ans=='Y'){
@@ -167,6 +210,10 @@ void Login_admin::login_admin(char user_n[], char pass[])
 				}*/
 				break;
 			}
+		}
+		if(found==0)
+		{
+			cout<<"This User does not exist!"<<endl;
 		}
 	}
 	fin.close();
@@ -1125,73 +1172,39 @@ void Login_user :: do_user_work()
 
 void Login_user :: login(char user_n[], char pass[])
 {
+	int found = 0;
 	ifstream fin("login_data.txt",ios::in);
 	while(fin>>username>>password)
 	{
 		if(strcmp(user_n,this->username)==0 && strcmp(pass,this->password)==0)
 		{
 			cout<<"Welcome back "<<username<<endl;
+			found = 1;
 			do_user_work();
 			break;
 		}
-		else
+		else if(strcmp(user_n,this->username)==0)
 		{
-			char ans;
-			string out = (strcmp(user_n,this->username)==0) ? "The entered password doesn't match":"The username is incorrect";
-			cout<<out<<endl;
-			cout<<"You might want to consider registering(y/n): ";
+			cout<<"Entered Password is incorret"<<endl;
+			found =1;
+			break;
+		}
+	}
+	if(found == 0)
+	{
+		char ans;
+		cout<<"You might want to consider registering(y/n): ";
 			cin>>ans;
 			if(ans=='y'||ans=='Y'){
 				this->Register();
-				break;
 			}
 			else{
 				cout<<"Allright see ya!"<<endl;
-				break;
 			}
-		}
 	}
 	fin.close();
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////
-/******************************* STRING OPERATIONS **************************************/
-int str_len(char c[])
-{
-	int length=0;
-	while(c[length]!='\0')
-	{
-		length++;
-	}
-	return length;
-}
-
-string conv_to_str(char* a,int size)
-{
-	int i;
-	string s = "";
-	for(i=0;i<size;i++)
-	{
-		s = s + a[i];
-	}
-	return s;
-}
-
-int isSubstring(string s1, string s2) 
-{ 
-    int M = s1.length(); 
-    int N = s2.length(); 
-    for (int i = 0; i <= N - M; i++) { // A loop to slide pat[] one by one
-        int j; 
-        for (j = 0; j < M; j++) //For current index i, check for pattern match
-            if (s2[i + j] != s1[j]) 
-                break; 
-        if (j == M) 
-            return i; 
-    } 
-    return -1;
-} 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /******************************** MAIN PROGRAM ***********************************************/
 int main()
