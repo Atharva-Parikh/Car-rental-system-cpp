@@ -30,7 +30,6 @@ class Cars
 		}
 		void bookit(){
 			this->booked = 1;
-			//return booked;
 		}
 		void unbookit(){
 			this->booked = 0;			
@@ -48,10 +47,10 @@ class Login_user:public Login{
 		void Register();
 		void login(char user_n[], char pass[]);
 		//display available cars
-		void show_hatchback();
-		void show_sedan();
-		void show_suv();
-		void show_luxury();
+		int show_hatchback();
+		int show_sedan();
+		int show_suv();
+		int show_luxury();
 		//book the available cars
 		void book_hatchback();
 		void book_sedan();
@@ -60,6 +59,10 @@ class Login_user:public Login{
 		//do work function
 		void do_user_work();
 		void unbook();
+		int search_car_hatchback(int);
+		int search_car_sedan(int);
+		int search_car_suv(int);
+		int search_car_luxury(int);
 };
 
 class Login_admin:public Login{
@@ -137,10 +140,7 @@ void Cars::getdata()
 
 void Cars::putdata()
 {
-	/*cout<<"Car - "<<name<<endl;
-	cout<<"ID - "<<ID<<endl;
-	cout<<"booked? - "<<booked<<endl;*/
-	cout<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(1)<<booked<<" |"<<endl;
+	cout<<"\t"<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(1)<<booked<<" |"<<endl;
 }
 void Cars::modify() //function to modify the records
 {
@@ -401,7 +401,10 @@ void Login_admin::Export()
 	fout<<"HATCHBACK"<<endl;
 	while(fin1.read((char*)&c,sizeof(c)))
 	{
-		fout<<c.get_name()<<","<<c.get_ID()<<","<<c.booked_status()<<endl;
+		if(c.booked_status()==0)
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"Yes"<<endl;
+		else
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
 	fin1.close();//close hatchback
 	
@@ -410,7 +413,10 @@ void Login_admin::Export()
 	fout<<"SEDAN"<<endl;
 	while(fin2.read((char*)&c,sizeof(c)))
 	{
-		fout<<c.get_name()<<","<<c.get_ID()<<","<<c.booked_status()<<endl;
+		if(c.booked_status()==0)
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"Yes"<<endl;
+		else
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
 	fin2.close();//close hatchback
 	
@@ -419,7 +425,10 @@ void Login_admin::Export()
 	fout<<"HATCHBACK"<<endl;
 	while(fin3.read((char*)&c,sizeof(c)))
 	{
-		fout<<c.get_name()<<","<<c.get_ID()<<","<<c.booked_status()<<endl;
+		if(c.booked_status()==0)
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"Yes"<<endl;
+		else
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
 	fin3.close();//close hatchback
 	
@@ -428,7 +437,10 @@ void Login_admin::Export()
 	fout<<"HATCHBACK"<<endl;
 	while(fin4.read((char*)&c,sizeof(c)))
 	{
-		fout<<c.get_name()<<","<<c.get_ID()<<","<<c.booked_status()<<endl;
+		if(c.booked_status()==0)
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"Yes"<<endl;
+		else
+			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
 	fin4.close();//close hatchback
 	fout.close();//close the excel file
@@ -797,14 +809,14 @@ void Login_user :: Register()
 	fout.close();
 }
 
-void Login_user :: show_hatchback()
+int Login_user :: show_hatchback()
 {
 	ifstream fin("HATCHBACK.dat",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No HATCHBACK Data Available!"<<endl;
 		fin.close();
-		return;
+		return 1;
 	}
 	cout<<"Available hatchback cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
@@ -813,7 +825,7 @@ void Login_user :: show_hatchback()
 			c.putdata();
 		}
 	}
-	fin.seekg(0,ios::beg);
+	fin.seekg(0,ios_base::beg);
 	cout<<"\nUnvailable hatchback cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -822,17 +834,18 @@ void Login_user :: show_hatchback()
 		}
 	}
 	fin.close();
+	return 0;
 }
 
 
-void Login_user :: show_sedan()
+int Login_user :: show_sedan()
 {
 	ifstream fin("SEDAN.dat",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SEDAN Data Available!"<<endl;
 		fin.close();
-		return;
+		return 1;
 	}
 	cout<<"Available SEDAN cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
@@ -850,16 +863,17 @@ void Login_user :: show_sedan()
 		}
 	}
 	fin.close();
+	return 0;
 }
 
-void Login_user :: show_suv()
+int Login_user :: show_suv()
 {
 	ifstream fin("SUV.dat",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SUV Data Available!"<<endl;
 		fin.close();
-		return;
+		return 1;
 	}
 	cout<<"Available SUV cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
@@ -877,16 +891,17 @@ void Login_user :: show_suv()
 		}
 	}
 	fin.close();
+	return 0;
 }
 
-void Login_user :: show_luxury()
+int Login_user :: show_luxury()
 {
 	ifstream fin("LUXURY.dat",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No LUXURY Data Available!"<<endl;
 		fin.close();
-		return;
+		return 1;
 	}
 	cout<<"Available LUXURY cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
@@ -904,25 +919,40 @@ void Login_user :: show_luxury()
 		}
 	}
 	fin.close();
+	return 0;
 }
 
 void Login_user :: book_hatchback()
 {
 	int car_to_book;
 	char found = 'n';
-	cout<<"Enter the ID of car to book: ";
-	cin>>car_to_book;
+	int check;
+	do{
+		cout<<"Enter the ID of car to book: ";
+		cin>>car_to_book;
+		check = search_car_hatchback(car_to_book);
+		if(check == 0){
+			cout<<"ID is wrong :( refer menu"<<endl;
+		}
+	}while(check==0);
 	fstream fio("HATCHBACK.dat",ios::in|ios::out);
+	//check valid id
 	fio.seekg(0);
 	while(1)
 	{
 		int loc = fio.tellg(); 
 		fio.read((char*)&c,sizeof(c));
-		if(c.get_ID() == car_to_book){
+		if(c.get_ID() == car_to_book && c.booked_status() == 0){
 			c.bookit();
 			found = 'y';
 			fio.seekg(loc);
 			fio.write((char*)&c,sizeof(c));
+			break;
+		}
+		else if(c.get_ID() == car_to_book && c.booked_status() == 1)
+		{
+			cout<<"Sorry its Already booked"<<endl;
+			found = 'y';
 			break;
 		}
 	}
@@ -942,19 +972,32 @@ void Login_user :: book_sedan()
 {
 	int car_to_book;
 	char found = 'n';
-	cout<<"Enter the ID of car to book: ";
-	cin>>car_to_book;
+	int check;
+	do{
+		cout<<"Enter the ID of car to book: ";
+		cin>>car_to_book;
+		check = search_car_hatchback(car_to_book);
+		if(check == 0){
+			cout<<"ID is wrong :( refer menu"<<endl;
+		}
+	}while(check==0);
 	fstream fio("SEDAN.dat",ios::in|ios::out);
 	fio.seekg(0);
 	while(1)
 	{
 		int loc = fio.tellg(); 
 		fio.read((char*)&c,sizeof(c));
-		if(c.get_ID() == car_to_book){
+		if(c.get_ID() == car_to_book && c.booked_status() == 0){
 			c.bookit();
 			found = 'y';
 			fio.seekg(loc);
 			fio.write((char*)&c,sizeof(c));
+			break;
+		}
+		else if(c.get_ID() == car_to_book && c.booked_status() == 1)
+		{
+			cout<<"Sorry its Already booked"<<endl;
+			found = 'y';
 			break;
 		}
 	}
@@ -974,19 +1017,32 @@ void Login_user :: book_suv()
 {
 	int car_to_book;
 	char found = 'n';
-	cout<<"Enter the ID of car to book: ";
-	cin>>car_to_book;
+	int check;
+	do{
+		cout<<"Enter the ID of car to book: ";
+		cin>>car_to_book;
+		check = search_car_hatchback(car_to_book);
+		if(check == 0){
+			cout<<"ID is wrong :( refer menu"<<endl;
+		}
+	}while(check==0);
 	fstream fio("SUV.dat",ios::in|ios::out);
 	fio.seekg(0);
 	while(1)
 	{
 		int loc = fio.tellg(); 
 		fio.read((char*)&c,sizeof(c));
-		if(c.get_ID() == car_to_book){
+		if(c.get_ID() == car_to_book && c.booked_status() == 0){
 			c.bookit();
 			found = 'y';
 			fio.seekg(loc);
 			fio.write((char*)&c,sizeof(c));
+			break;
+		}
+		else if(c.get_ID() == car_to_book && c.booked_status() == 1)
+		{
+			cout<<"Sorry its Already booked"<<endl;
+			found = 'y';
 			break;
 		}
 	}
@@ -1006,19 +1062,32 @@ void Login_user :: book_luxury()
 {
 	int car_to_book;
 	char found = 'n';
-	cout<<"Enter the ID of car to book: ";
-	cin>>car_to_book;
+	int check;
+	do{
+		cout<<"Enter the ID of car to book: ";
+		cin>>car_to_book;
+		check = search_car_hatchback(car_to_book);
+		if(check == 0){
+			cout<<"ID is wrong :( refer menu"<<endl;
+		}
+	}while(check==0);
 	fstream fio("LUXURY.dat",ios::in|ios::out);
 	fio.seekg(0);
 	while(1)
 	{
 		int loc = fio.tellg(); 
 		fio.read((char*)&c,sizeof(c));
-		if(c.get_ID() == car_to_book){
+		if(c.get_ID() == car_to_book && c.booked_status() == 0){
 			c.bookit();
 			found = 'y';
 			fio.seekg(loc);
 			fio.write((char*)&c,sizeof(c));
+			break;
+		}
+		else if(c.get_ID() == car_to_book && c.booked_status() == 1)
+		{
+			cout<<"Sorry its Already booked"<<endl;
+			found = 'y';
 			break;
 		}
 	}
@@ -1130,6 +1199,74 @@ void Login_user::unbook()
 	}
 }
 
+int Login_user::search_car_hatchback(int id_car)
+{
+	char found = 'n';
+	ifstream fio1("HATCHBACK.dat",ios::in);
+	while(fio1.read((char*)&c,sizeof(c)))
+	{
+		if(c.get_ID() == id_car){
+			found = 'y';
+		}
+	}
+	fio1.close();
+	if(found == 'y'){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
+
+int Login_user::search_car_sedan(int id_car)
+{
+	char found = 'n';
+	ifstream fio2("SEDAN.dat",ios::in);
+	while(fio2.read((char*)&c,sizeof(c)))
+	{
+		if(c.get_ID() == id_car){
+			found = 'y';
+		}
+	}
+	fio2.close();
+	if(found == 'y'){
+		return 1;
+	}
+	else{return 0;}
+}
+int Login_user::search_car_suv(int id_car)
+{
+	char found = 'n';
+	ifstream fio3("SUV.dat",ios::in);
+	while(fio3.read((char*)&c,sizeof(c)))
+	{
+		if(c.get_ID() == id_car){
+			found = 'y';
+		}
+	}
+	fio3.close();
+	if(found == 'y'){
+		return 1;
+	}
+}
+int Login_user::search_car_luxury(int id_car)
+{
+	char found = 'n';
+	ifstream fio4("LUXURY.dat",ios::in);
+	while(fio4.read((char*)&c,sizeof(c)))
+	{
+		if(c.get_ID() == id_car){
+			found = 'y';
+		}
+	}
+	fio4.close();
+	if(found == 'y'){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
 void Login_user :: do_user_work()
 {
 	int choice;
@@ -1139,25 +1276,30 @@ void Login_user :: do_user_work()
 	{
 		case 1:
 			int ch;
+			int collect;
 			cout<<"Booking Point\n 1.Hatchback\n 2.Sedan\n 3.Suv\n 4.Luxury\n Your Choice: ";
 			cin>>ch;
 			switch(ch)
 			{
 				case 1:
-					this->show_hatchback();
-					this->book_hatchback();
+					collect = this->show_hatchback();
+					if(collect == 0)
+						this->book_hatchback();	
 					break;
 				case 2:
-					this->show_sedan();
-					this->book_sedan();
+					collect = this->show_sedan();
+					if(collect == 0)
+						this->book_sedan();
 					break;
 				case 3:
-					this->show_suv();
-					this->book_suv();
+					collect = this->show_suv();
+					if(collect == 0)
+						this->book_suv();
 					break;
 				case 4:
-					this->show_luxury();
-					this->book_suv();
+					collect = this->show_luxury();
+					if(collect == 0)
+						this->book_suv();
 					break;
 				default:
 					cout<<"Seems You selected wrong option"<<endl;
@@ -1173,7 +1315,7 @@ void Login_user :: do_user_work()
 void Login_user :: login(char user_n[], char pass[])
 {
 	string name;
-	int found = 0;
+	int round = 0;
 	ifstream fin("login_data.txt",ios::in);
 	while(fin>>username>>password)
 	{
@@ -1182,18 +1324,18 @@ void Login_user :: login(char user_n[], char pass[])
 			name = conv_to_str(user_n,str_len(user_n));
 			size_t found = name.find("@");
 			cout<<"Welcome back "<<name.substr(0,found)<<endl;
-			found = 1;
+			round = 1;
+			cout<<"Found value (code line 1194): "<<round<<endl;
 			do_user_work();
-			break;
 		}
 		else if(strcmp(user_n,this->username)==0)
 		{
 			cout<<"Entered Password is incorret"<<endl;
-			found =1;
-			break;
+			round =1;
 		}
 	}
-	if(found == 0)
+	fin.close();
+	if(round == 0)
 	{
 		char ans;
 		cout<<"You might want to consider registering(y/n): ";
@@ -1205,7 +1347,6 @@ void Login_user :: login(char user_n[], char pass[])
 				cout<<"Allright see ya!"<<endl;
 			}
 	}
-	fin.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
