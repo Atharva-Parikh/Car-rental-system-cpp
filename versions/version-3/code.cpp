@@ -12,7 +12,7 @@ class Cars
 {
 	protected:
 		char name[100];
-		int ID;  //format 6 bit binary
+		int ID;  //format 4 digit
 		bool booked; // 1 or 0
 	public:
 		void getdata();
@@ -132,10 +132,25 @@ void Cars::getdata()
 {
 	cout<<"Enter name of car: ";
 	scanf(" %[^\n]s",name);
-	cout<<"Enter ID of the car: ";
-	cin>>ID;
-	cout<<"Booked status(1 for yes/0 for no): ";
-	cin>>booked;
+	while(1)
+	{
+		cout<<"Enter ID of the car: ";
+		cin>>ID;
+		if(ID/10000 == 0 && ID/1000!=0)
+			break;
+		else
+			cout<<"4 Digit please"<<endl;
+	}
+	while(1)
+	{
+		cout<<"Booked status(1 for yes/0 for no): ";
+		cin>>booked;
+		if(booked==1||booked==0)
+			break;
+		else
+			cout<<"Enter (1 for yes/0 for no)"<<endl;
+	}
+	
 }
 
 void Cars::putdata()
