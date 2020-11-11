@@ -1433,7 +1433,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 			cout<<"|"<<setw(30)<<"Advance Pay "<<"|"<<setw(30)<<min_pay<<endl;
 			cout<<"|"<<setw(30)<<"After use Pay"<<"|"<<setw(30)<<pay-min_pay<<endl;
 			cout<<"|"<<setw(30)<<"Penalty per hour"<<"|"<<setw(30)<<penalty_rate<<endl;
-			cout<<"*******************************************************"<<endl;
+			cout<<"************************************************************"<<endl;
 			break;
 		case 2:
 			//while(1)
@@ -1457,7 +1457,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 			cout<<"|"<<setw(30)<<"Advance Pay "<<"|"<<setw(30)<<min_pay<<endl;
 			cout<<"|"<<setw(30)<<"After use Pay"<<"|"<<setw(30)<<pay-min_pay<<endl;
 			cout<<"|"<<setw(30)<<"Penalty per hour"<<"|"<<setw(30)<<penalty_rate<<endl;
-			cout<<"*******************************************************"<<endl;
+			cout<<"************************************************************"<<endl;
 			break;
 		default:
 			cout<<"Wrong option selected"<<endl;
