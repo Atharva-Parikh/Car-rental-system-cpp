@@ -153,7 +153,10 @@ void Cars::getdata()
 }
 void Cars::putdata()
 {
-	cout<<"\t"<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(1)<<booked<<" |"<<endl;
+	if(booked==1)
+		cout<<"\t"<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(4)<<"Yes"<<" |"<<endl;
+	else
+		cout<<"\t"<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(4)<<"No"<<" |"<<endl;
 }
 void Cars::modify() //function to modify the records
 {
@@ -249,7 +252,7 @@ void Login_admin::Read_user_data()
 	}
 	while(fin>>username>>password)
 	{
-		cout<<"|"<<username<<setw(20)<<"|"<<password<<setw(10)<<"|"<<endl;
+		cout<<"|"<<setw(20)<<username<<"|"<<setw(10)<<password<<"|"<<endl;
 	}
 	fin.close();
 }
@@ -332,6 +335,7 @@ void Login_admin::display_car_hatchback()
 		fin.close();
 		return;
 	}
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
 		c.putdata();
@@ -348,6 +352,7 @@ void Login_admin::display_car_luxury()
 		fin.close();
 		return;
 	}
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
 		c.putdata();
@@ -364,6 +369,7 @@ void Login_admin::display_car_sedan()
 		fin.close();
 		return;
 	}
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
 		c.putdata();
@@ -380,6 +386,7 @@ void Login_admin::display_car_suv()
 		fin.close();
 		return;
 	}
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
 		c.putdata();
@@ -831,7 +838,7 @@ int Login_user :: show_hatchback()
 		return 1;
 	}
 	cout<<"\tFORMAT"<<endl;
-	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(1)<<"BOOKED"<<" |"<<endl;
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |"<<endl;
 	cout<<"\n\tAvailable hatchback cars are\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -861,7 +868,7 @@ int Login_user :: show_sedan()
 		return 1;
 	}
 	cout<<"FORMAT"<<endl;
-	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(1)<<"BOOKED"<<" |"<<endl;
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |"<<endl;
 	cout<<"Available SEDAN cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -891,7 +898,7 @@ int Login_user :: show_suv()
 		return 1;
 	}
 	cout<<"FORMAT"<<endl;
-	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(1)<<"BOOKED"<<" |"<<endl;
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |"<<endl;
 	cout<<"Available SUV cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -921,7 +928,7 @@ int Login_user :: show_luxury()
 		return 1;
 	}
 	cout<<"FORMAT"<<endl;
-	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(1)<<"BOOKED"<<" |"<<endl;
+	cout<<"\t"<<"|"<<setw(20)<<"NAME"<<" |"<<setw(5)<<"ID"<<" |"<<setw(4)<<"BOOKED"<<" |"<<endl;
 	cout<<"Available LUXURY cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -1351,7 +1358,7 @@ int Login_user::search_car_luxury(int id_car)
 void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 {
 	int see_car,rate;
-	char* namethecar;
+	string namethecar;
 	int choice,n,bill_id;
 	float pay,min_pay,penalty_rate;
 	see_car = search_car_hatchback(carid);
@@ -1565,7 +1572,7 @@ int main()
 		cout<<line<<endl;
 	}
 	do{
-		cout<<"\nEnter:\n 1.Login\n 2.User Registeration\n 3.Exit Program\n Your Choice: ";
+		cout<<"\n\t\t\tEnter:\n \t\t\t[1]Login\n \t\t\t[2]User Registeration\n \t\t\t[3]Exit Program\n \t\t\tYour Choice: ";
 		cin>>choosing;
 		switch(choosing)
 	{
