@@ -1003,7 +1003,7 @@ void Login_user :: book_sedan()
 	do{
 		cout<<"Enter the ID of car to book: ";
 		cin>>car_to_book;
-		check = search_car_hatchback(car_to_book);
+		check = search_car_sedan(car_to_book);
 		if(check == 0){
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
@@ -1049,7 +1049,7 @@ void Login_user :: book_suv()
 	do{
 		cout<<"Enter the ID of car to book: ";
 		cin>>car_to_book;
-		check = search_car_hatchback(car_to_book);
+		check = search_car_suv(car_to_book);
 		if(check == 0){
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
@@ -1095,7 +1095,7 @@ void Login_user :: book_luxury()
 	do{
 		cout<<"Enter the ID of car to book: ";
 		cin>>car_to_book;
-		check = search_car_hatchback(car_to_book);
+		check = search_car_luxury(car_to_book);
 		if(check == 0){
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
