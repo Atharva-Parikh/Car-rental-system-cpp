@@ -1327,34 +1327,6 @@ int Login_user::search_car_luxury(int id_car)
 		return 0;
 	}
 }
-/*void Login_user::invoice(int carid) //(int carid,char* name_of_car)
-{
-	int see_car;
-	see_car = search_car_hatchback(carid);
-	if(see_car==1)
-	{
-		bill(50,carid,11); //bill(50,carid,name_of_car);
-		return;
-	}
-	see_car = search_car_sedan(carid);
-	if(see_car==1)
-	{
-		bill(75,carid,12); //bill(75,carid,name_of_car);
-		return;
-	}
-	see_car = search_car_suv(carid);
-	if(see_car==1)
-	{
-		bill(85,carid,13); //bill(5,carid,name_of_car);
-		return;
-	}
-	see_car = search_car_luxury(carid);
-	if(see_car==1)
-	{
-		bill(220,carid,14); //bill(220,carid,name_of_car);
-		return;
-	}
-}*/
 void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 {
 	int see_car,rate;
