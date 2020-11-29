@@ -1,11 +1,8 @@
-#include<iostream>
-#include<sstream>
-#include<fstream>
-#include<string.h>
-#include<string>
-#include<conio.h>
-#include<stdlib.h>
-#include<iomanip>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string.h>
+#include <conio.h>
 using namespace std;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /********************************************* CLASSES ******************************************************/
@@ -19,7 +16,6 @@ class Cars
 		void getdata();
 		void putdata();
 		void modify();
-		void Export();
 		bool booked_status(){
 			return booked;
 		}
@@ -71,7 +67,7 @@ class Login_admin:public Login{
 	public:
 		void login_admin(char user_n[],char pass[]);
 		//void register_admin();
-		void Export_user_data();
+		void Export_user_data(); //exporting user data to csv
 		void Read_user_data();
 		//this is file class in original code
 		void search_car();
@@ -275,7 +271,7 @@ void Login_admin::Export_user_data()
 }
 void Login_admin::add_car_hatchback(){
 	char ch='y';
-	ofstream fout("HATCHBACK.dat",ios::out|ios::app);
+	ofstream fout("HATCHBACK.txt",ios::out|ios::app);
 	while(ch=='y'|ch=='Y')
 	{
 		c.getdata();
@@ -288,7 +284,7 @@ void Login_admin::add_car_hatchback(){
 }
 void Login_admin::add_car_luxury(){
 	char ch='y';
-	ofstream fout("LUXURY.dat",ios::out|ios::app);
+	ofstream fout("LUXURY.txt",ios::out|ios::app);
 	while(ch=='y'|ch=='Y')
 	{
 		c.getdata();
@@ -301,7 +297,7 @@ void Login_admin::add_car_luxury(){
 }
 void Login_admin::add_car_sedan(){
 	char ch='y';
-	ofstream fout("SEDAN.dat",ios::out|ios::app);
+	ofstream fout("SEDAN.txt",ios::out|ios::app);
 	while(ch=='y'|ch=='Y')
 	{
 		c.getdata();
@@ -314,7 +310,7 @@ void Login_admin::add_car_sedan(){
 }
 void Login_admin::add_car_suv(){
 	char ch='y';
-	ofstream fout("SUV.dat",ios::out|ios::app);
+	ofstream fout("SUV.txt",ios::out|ios::app);
 	while(ch=='y'|ch=='Y')
 	{
 		c.getdata();
@@ -327,7 +323,7 @@ void Login_admin::add_car_suv(){
 }
 void Login_admin::display_car_hatchback()
 {
-	ifstream fin("HATCHBACK.dat",ios::in);
+	ifstream fin("HATCHBACK.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No HATCHBACK Data Available!"<<endl;
@@ -344,7 +340,7 @@ void Login_admin::display_car_hatchback()
 }
 void Login_admin::display_car_luxury()
 {
-	ifstream fin("LUXURY.dat",ios::in);
+	ifstream fin("LUXURY.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No LUXURY Data Available!"<<endl;
@@ -361,7 +357,7 @@ void Login_admin::display_car_luxury()
 }
 void Login_admin::display_car_sedan()
 {
-	ifstream fin("SEDAN.dat",ios::in);
+	ifstream fin("SEDAN.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SEDAN Data Available!"<<endl;
@@ -378,7 +374,7 @@ void Login_admin::display_car_sedan()
 }
 void Login_admin::display_car_suv()
 {
-	ifstream fin("SUV.dat",ios::in);
+	ifstream fin("SUV.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SUV Data Available!"<<endl;
@@ -397,7 +393,7 @@ void Login_admin::Export()
 {	
 	ofstream fout("cars.csv");
 	//writing hatchback file to excel cars file
-	ifstream fin1("HATCHBACK.dat",ios::in); //open hatchback
+	ifstream fin1("HATCHBACK.txt",ios::in); //open hatchback
 	fout<<"HATCHBACK"<<endl;
 	while(fin1.read((char*)&c,sizeof(c)))
 	{
@@ -406,10 +402,11 @@ void Login_admin::Export()
 		else
 			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
+	fout<<endl;
 	fin1.close();//close hatchback
 	
 	//writing Sedan file to excel cars file
-	ifstream fin2("SEDAN.dat",ios::in); //open hatchback
+	ifstream fin2("SEDAN.txt",ios::in); //open hatchback
 	fout<<"SEDAN"<<endl;
 	while(fin2.read((char*)&c,sizeof(c)))
 	{
@@ -418,10 +415,11 @@ void Login_admin::Export()
 		else
 			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
+	fout<<endl;
 	fin2.close();//close Sedan
 	
 	//writing Suv file to excel cars file
-	ifstream fin3("SUV.dat",ios::in); //open hatchback
+	ifstream fin3("SUV.txt",ios::in); //open hatchback
 	fout<<"SUV"<<endl;
 	while(fin3.read((char*)&c,sizeof(c)))
 	{
@@ -430,10 +428,11 @@ void Login_admin::Export()
 		else
 			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
+	fout<<endl;
 	fin3.close();//close Suv
 	
 	//writing luxury file to excel cars file
-	ifstream fin4("LUXURY.dat",ios::in); //open hatchback
+	ifstream fin4("LUXURY.txt",ios::in); //open hatchback
 	fout<<"LUXURY"<<endl;
 	while(fin4.read((char*)&c,sizeof(c)))
 	{
@@ -442,6 +441,7 @@ void Login_admin::Export()
 		else
 			fout<<c.get_name()<<","<<c.get_ID()<<","<<"No"<<endl;
 	}
+	fout<<endl;
 	fin4.close();//close luxury
 	fout.close();//close the excel file
 }
@@ -452,7 +452,7 @@ void Login_admin::search_car()
 	cout<<"\nEnter the ID to be searched: ";
 	cin>>entered_id;
 	//searching the hatchback file
-	ifstream fin1("HATCHBACK.dat",ios::in);
+	ifstream fin1("HATCHBACK.txt",ios::in);
 	while(fin1.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
@@ -465,7 +465,7 @@ void Login_admin::search_car()
 	if(found =='y'){return;}
 
 	//searching the sedan file
-	ifstream fin2("SEDAN.dat",ios::in);
+	ifstream fin2("SEDAN.txt",ios::in);
 	while(fin2.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
@@ -478,7 +478,7 @@ void Login_admin::search_car()
 	if(found =='y'){return;}
 	
 	//searching the suv file
-	ifstream fin3("SUV.dat",ios::in);
+	ifstream fin3("SUV.txt",ios::in);
 	while(fin3.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
@@ -491,7 +491,7 @@ void Login_admin::search_car()
 	if(found =='y'){return;}
 	
 	//searching the luxury file
-	ifstream fin4("LUXURY.dat",ios::in);
+	ifstream fin4("LUXURY.txt",ios::in);
 	while(fin4.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
@@ -512,7 +512,7 @@ void Login_admin::modify_car() //fuction to modify the records of file
 	cin>>entered_id;
 	
 	//searching and modifying the hatchback file
-	fstream fio1("HATCHBACK.dat",ios::in|ios::out);
+	fstream fio1("HATCHBACK.txt",ios::in|ios::out);
 	fio1.seekg(0);
 	while(!fio1.eof())
 	{
@@ -532,7 +532,7 @@ void Login_admin::modify_car() //fuction to modify the records of file
 	if(found =='y'){return;}
 	
 	//searching and modifying the sedan file
-	fstream fio2("SEDAN.dat",ios::in|ios::out);
+	fstream fio2("SEDAN.txt",ios::in|ios::out);
 	fio2.seekg(0);
 	while(!fio2.eof())
 	{
@@ -551,7 +551,7 @@ void Login_admin::modify_car() //fuction to modify the records of file
 	if(found =='y'){return;}
 	
 	//searching and modifying the suv file
-	fstream fio3("SUV.dat",ios::in|ios::out);
+	fstream fio3("SUV.txt",ios::in|ios::out);
 	fio3.seekg(0);
 	while(!fio3.eof())
 	{
@@ -570,7 +570,7 @@ void Login_admin::modify_car() //fuction to modify the records of file
 	if(found =='y'){return;}
 	
 	//searching and modifying the hatchback file
-	fstream fio4("LUXURY.dat",ios::in|ios::out);
+	fstream fio4("LUXURY.txt",ios::in|ios::out);
 	fio4.seekg(0);
 	while(!fio4.eof())
 	{
@@ -596,9 +596,10 @@ void Login_admin::delete_c() //function to delete the records of file
 	cout<<"\nEnter the ID to be deleted: ";
 	cin>>entered_id;
 	
-	fstream fio1("HATCHBACK.dat",ios::in|ios::out|ios::app);
-	ofstream fout1("temp1.dat",ios::out|ios::app);
-	while(fio1.read((char*)&c,sizeof(c)))
+	//fstream fio1("HATCHBACK.txt",ios::in|ios::out|ios::app);
+	ifstream fin1("HATCHBACK.txt",ios::in);
+	ofstream fout1("temp1.txt",ios::out|ios::app);
+	while(fin1.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
 		{
@@ -608,19 +609,20 @@ void Login_admin::delete_c() //function to delete the records of file
 			fout1.write((char*)&c,sizeof(c)); //writing to temp file
 		}
 	}
-	fio1.close();
+	fin1.close();
 	fout1.close();
-	remove("HATCHBACK.dat");
-	rename("temp1.dat","HATCHBACK.dat");
+	remove("HATCHBACK.txt");
+	rename("temp1.txt","HATCHBACK.txt");
 	if(found=='y'){
 		cout<<"Record successfully deleted"<<endl;
 		return;
 	}
 	
 	
-	fstream fio2("SEDAN.dat",ios::in|ios::out|ios::app);
-	ofstream fout2("temp2.dat",ios::out|ios::app);
-	while(fio2.read((char*)&c,sizeof(c)))
+	//fstream fio2("SEDAN.txt",ios::in|ios::out|ios::app);
+	ifstream fin2("SEDAN.txt",ios::in);
+	ofstream fout2("temp2.txt",ios::out|ios::app);
+	while(fin2.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
 		{
@@ -630,18 +632,19 @@ void Login_admin::delete_c() //function to delete the records of file
 			fout2.write((char*)&c,sizeof(c)); //writing to temp file
 		}
 	}	
-	fio2.close();
+	fin2.close();
 	fout2.close();
-	remove("SEDAN.dat");
-	rename("temp2.dat","SEDAN.dat");
+	remove("SEDAN.txt");
+	rename("temp2.txt","SEDAN.txt");
 	if(found=='y'){
 		cout<<"Record successfully deleted"<<endl;
 		return;
 	}
 	
-	fstream fio3("SUV.dat",ios::in|ios::out|ios::app);
-	ofstream fout3("temp3.dat",ios::out|ios::app);
-	while(fio3.read((char*)&c,sizeof(c)))
+	//fstream fio3("SUV.txt",ios::in|ios::out|ios::app);
+	ifstream fin3("SUV.txt",ios::in);
+	ofstream fout3("temp3.txt",ios::out|ios::app);
+	while(fin3.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
 		{
@@ -651,18 +654,18 @@ void Login_admin::delete_c() //function to delete the records of file
 			fout3.write((char*)&c,sizeof(c)); //writing to temp file
 		}
 	}
-	fio3.close();
+	fin3.close();
 	fout3.close();
-	remove("SUV.dat");
-	rename("temp3.dat","SUV.dat");
+	remove("SUV.txt");
+	rename("temp3.txt","SUV.txt");
 	if(found=='y'){
 		cout<<"Record successfully deleted"<<endl;
 		return;
 	}
 	
-	fstream fio4("LUXURY.dat",ios::in|ios::out|ios::app);
-	ofstream fout4("temp4.dat",ios::out|ios::app);
-	while(fio4.read((char*)&c,sizeof(c)))
+	ifstream fin4("LUXURY.txt",ios::in);
+	ofstream fout4("temp4.txt",ios::out|ios::app);
+	while(fin4.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID()==entered_id)
 		{
@@ -672,10 +675,10 @@ void Login_admin::delete_c() //function to delete the records of file
 			fout4.write((char*)&c,sizeof(c)); //writing to temp file
 		}
 	}
-	fio4.close();
+	fin4.close();
 	fout4.close();
-	remove("LUXURY.dat");
-	rename("temp4.dat","LUXURY.dat");
+	remove("LUXURY.txt");
+	rename("temp4.txt","LUXURY.txt");
 	if(found=='y'){
 		cout<<"Record successfully deleted"<<endl;
 		return;
@@ -818,7 +821,7 @@ void Login_user :: Register()
 }
 int Login_user :: show_hatchback()
 {
-	ifstream fin("HATCHBACK.dat",ios::in);
+	ifstream fin("HATCHBACK.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No HATCHBACK Data Available!"<<endl;
@@ -835,7 +838,7 @@ int Login_user :: show_hatchback()
 		}
 	}
 	fin.close();
-	fin.open("HATCHBACK.dat",ios::in);
+	fin.open("HATCHBACK.txt",ios::in);
 	cout<<"\n\tUnvailable hatchback cars are\n"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -848,7 +851,7 @@ int Login_user :: show_hatchback()
 }
 int Login_user :: show_sedan()
 {
-	ifstream fin("SEDAN.dat",ios::in);
+	ifstream fin("SEDAN.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SEDAN Data Available!"<<endl;
@@ -865,7 +868,7 @@ int Login_user :: show_sedan()
 		}
 	}
 	fin.close();
-	fin.open("SEDAN.dat",ios::in);
+	fin.open("SEDAN.txt",ios::in);
 	cout<<"\nUnvailable SEDAN cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -878,7 +881,7 @@ int Login_user :: show_sedan()
 }
 int Login_user :: show_suv()
 {
-	ifstream fin("SUV.dat",ios::in);
+	ifstream fin("SUV.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No SUV Data Available!"<<endl;
@@ -895,7 +898,7 @@ int Login_user :: show_suv()
 		}
 	}
 	fin.close();
-	fin.open("SUV.dat",ios::in);
+	fin.open("SUV.txt",ios::in);
 	cout<<"\nUnvailable SUV cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -908,7 +911,7 @@ int Login_user :: show_suv()
 }
 int Login_user :: show_luxury()
 {
-	ifstream fin("LUXURY.dat",ios::in);
+	ifstream fin("LUXURY.txt",ios::in);
 	if(!(fin)) //check if the file is empty
 	{
 		cout<<"No LUXURY Data Available!"<<endl;
@@ -925,7 +928,7 @@ int Login_user :: show_luxury()
 		}
 	}
 	fin.close();
-	fin.open("LUXURY.dat",ios::in);
+	fin.open("LUXURY.txt",ios::in);
 	cout<<"\nUnvailable LUXURY cars are"<<endl;
 	while(fin.read((char*)&c,sizeof(c)))
 	{
@@ -949,7 +952,7 @@ void Login_user :: book_hatchback()
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
 	}while(check==0);
-	fstream fio("HATCHBACK.dat",ios::in|ios::out);
+	fstream fio("HATCHBACK.txt",ios::in|ios::out);
 	//check valid id
 	fio.seekg(0);
 	while(!fio.eof())
@@ -994,7 +997,7 @@ void Login_user :: book_sedan()
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
 	}while(check==0);
-	fstream fio("SEDAN.dat",ios::in|ios::out);
+	fstream fio("SEDAN.txt",ios::in|ios::out);
 	fio.seekg(0);
 	while(!fio.eof())
 	{
@@ -1038,7 +1041,7 @@ void Login_user :: book_suv()
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
 	}while(check==0);
-	fstream fio("SUV.dat",ios::in|ios::out);
+	fstream fio("SUV.txt",ios::in|ios::out);
 	fio.seekg(0);
 	while(!fio.eof())
 	{
@@ -1065,7 +1068,6 @@ void Login_user :: book_suv()
 		//invoice function
 		cout<<"You've chosen a SUV car"<<endl;
 		bill(car_to_book);
-		//cout<<"Thank You for Booking!"<<endl;
 		return;
 	}
 }
@@ -1082,7 +1084,7 @@ void Login_user :: book_luxury()
 			cout<<"ID is wrong :( refer menu"<<endl;
 		}
 	}while(check==0);
-	fstream fio("LUXURY.dat",ios::in|ios::out);
+	fstream fio("LUXURY.txt",ios::in|ios::out);
 	fio.seekg(0);
 	while(!fio.eof())
 	{
@@ -1109,7 +1111,6 @@ void Login_user :: book_luxury()
 		//invoice function
 		cout<<"You've chosen a Luxury car"<<endl;
 		bill(car_to_book);
-		//cout<<"Thank You for Booking!"<<endl;
 		return;
 	}
 }
@@ -1120,9 +1121,10 @@ void Login_user::unbook()
 	do{
 	cout<<"Enter the ID of car you want to submit: ";
 	cin>>id_car;
+	if(id_car/10000!=0 && id_car/1000==0){cout<<"ID is of 4 digit please check your bill"<<endl;}
 	}while(id_car/10000!=0 && id_car/1000==0);
 	char found = 'n';
-	fstream fio1("HATCHBACK.dat",ios::in|ios::out);
+	fstream fio1("HATCHBACK.txt",ios::in|ios::out);
 	fio1.seekg(0);
 	while(!fio1.eof())
 	{
@@ -1149,7 +1151,7 @@ void Login_user::unbook()
 		return;
 	}
 	
-	fstream fio2("SEDAN.dat",ios::in|ios::out);
+	fstream fio2("SEDAN.txt",ios::in|ios::out);
 	fio2.seekg(0);
 	while(!fio2.eof())
 	{
@@ -1176,7 +1178,7 @@ void Login_user::unbook()
 		return;
 	}
 	
-	fstream fio3("SUV.dat",ios::in|ios::out);
+	fstream fio3("SUV.txt",ios::in|ios::out);
 	fio3.seekg(0);
 	while(!fio3.eof())
 	{
@@ -1203,7 +1205,7 @@ void Login_user::unbook()
 		return;
 	}
 	
-	fstream fio4("HATCHBACK.dat",ios::in|ios::out);
+	fstream fio4("HATCHBACK.txt",ios::in|ios::out);
 	fio4.seekg(0);
 	while(!fio4.eof())
 	{
@@ -1237,7 +1239,7 @@ void Login_user::unbook()
 int Login_user::search_car_hatchback(int id_car)
 {
 	char found = 'n';
-	ifstream fio1("HATCHBACK.dat",ios::in);
+	ifstream fio1("HATCHBACK.txt",ios::in);
 	while(fio1.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID() == id_car){
@@ -1253,7 +1255,7 @@ int Login_user::search_car_hatchback(int id_car)
 int Login_user::search_car_sedan(int id_car)
 {
 	char found = 'n';
-	ifstream fio2("SEDAN.dat",ios::in);
+	ifstream fio2("SEDAN.txt",ios::in);
 	while(fio2.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID() == id_car){
@@ -1269,7 +1271,7 @@ int Login_user::search_car_sedan(int id_car)
 int Login_user::search_car_suv(int id_car)
 {
 	char found = 'n';
-	ifstream fio3("SUV.dat",ios::in);
+	ifstream fio3("SUV.txt",ios::in);
 	while(fio3.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID() == id_car){
@@ -1285,7 +1287,7 @@ int Login_user::search_car_suv(int id_car)
 int Login_user::search_car_luxury(int id_car)
 {
 	char found = 'n';
-	ifstream fio4("LUXURY.dat",ios::in);
+	ifstream fio4("LUXURY.txt",ios::in);
 	while(fio4.read((char*)&c,sizeof(c)))
 	{
 		if(c.get_ID() == id_car){
@@ -1297,7 +1299,6 @@ int Login_user::search_car_luxury(int id_car)
 		return 1;
 	}
 	return 0;
-
 }
 void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 {
@@ -1309,7 +1310,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 	if(see_car==1)
 	{
 		rate = 50;
-		ifstream fin("HATCHBACK.dat",ios::in);
+		ifstream fin("HATCHBACK.txt",ios::in);
 		while(fin.read((char*)&c,sizeof(c)))
 		{
 			if(c.get_ID() == carid)
@@ -1323,7 +1324,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 	if(see_car==1)
 	{
 		rate = 75;
-		ifstream fin("SEDAN.dat",ios::in);
+		ifstream fin("SEDAN.txt",ios::in);
 		while(fin.read((char*)&c,sizeof(c)))
 		{
 			if(c.get_ID() == carid)
@@ -1337,7 +1338,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 	if(see_car==1)
 	{
 		rate = 85;
-		ifstream fin("SUV.dat",ios::in);
+		ifstream fin("SUV.txt",ios::in);
 		while(fin.read((char*)&c,sizeof(c)))
 		{
 			if(c.get_ID() == carid)
@@ -1351,7 +1352,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 	if(see_car==1)
 	{
 		rate = 220;
-		ifstream fin("LUXURY.dat",ios::in);
+		ifstream fin("LUXURY.txt",ios::in);
 		while(fin.read((char*)&c,sizeof(c)))
 		{
 			if(c.get_ID() == carid)
@@ -1389,7 +1390,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 			system("cls");
 			cout<<"************************ BILL ********************************"<<endl;
 			cout<<"|"<<setw(30)<<"Invoice Number"<<"|"<<setw(30)<<bill_id<<endl;
-			cout<<"|"<<setw(30)<<"Customer Name"<<"|"<<setw(30)<<this->username<<endl;
+			cout<<"|"<<setw(30)<<"Customer Name"<<"|"<<setw(30)<<username<<endl;
 			cout<<"|"<<setw(30)<<"Car Name"<<"|"<<setw(30)<<namethecar<<endl;
 			cout<<"|"<<setw(30)<<"Car ID"<<"|"<<setw(30)<<carid<<endl;
 			cout<<"|"<<setw(30)<<"Numbers of Hours"<<"|"<<setw(30)<<n<<endl;
@@ -1414,7 +1415,7 @@ void Login_user::bill(int carid)  //(float rate,int carid,char* name_of_car)
 			system("cls");
 			cout<<"************************** BILL ******************************"<<endl;
 			cout<<"|"<<setw(30)<<"Invoice Number"<<"|"<<setw(30)<<bill_id<<endl;
-			cout<<"|"<<setw(30)<<"Customer Name"<<"|"<<setw(30)<<this->username<<endl;
+			cout<<"|"<<setw(30)<<"Customer Name"<<"|"<<setw(30)<<username<<endl;
 			cout<<"|"<<setw(30)<<"Car Name"<<"|"<<setw(30)<<namethecar<<endl;
 			cout<<"|"<<setw(30)<<"Car ID"<<"|"<<setw(30)<<carid<<endl;
 			cout<<"|"<<setw(30)<<"Numbers of Hours"<<"|"<<setw(30)<<n<<endl;
@@ -1438,7 +1439,6 @@ void Login_user :: do_user_work()
 		case 1:
 			int ch;
 			int collect;
-			//info about cars in short (cout<<"\t"<<"|"<<setw(20)<<name<<" |"<<setw(5)<<ID<<" |"<<setw(1)<<booked<<" |"<<endl;)
 			cout<<setw(30)<<"QUICK INFO"<<endl;
 			cout<<"|"<<setw(10)<<"TYPE"<<" |"<<setw(15)<<"RATE(per hr)"<<" |"<<setw(20)<<"PENALTY RATE(per hr)"<<" |"<<endl;
 			cout<<"|"<<setw(10)<<"HATCHBACK"<<" |"<<setw(15)<<50<<" |"<<setw(20)<<50*(0.1) + 50<<" |"<<endl;
